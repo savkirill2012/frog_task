@@ -6,7 +6,8 @@ from enum import IntEnum
 
 class ResultOfButtle(IntEnum):
     LOSE = 0,
-    WIN = 1
+    DRAW = 1,
+    WIN = 2
 
 
 def __deal_damage_oponent(frog: Frog, oponent: Frog) -> None:
@@ -29,21 +30,32 @@ async def battleTwoFrogs(frog: Frog, oponent: Frog) -> int:
     # imitation of server connection for update
     await asyncio.sleep(0.001)
 
-    if frog.get_hp() <= 0:
-        return ResultOfButtle.WIN
-    else:
+    if frog.get_hp() <= 0 and oponent.get_hp() <= 0:
+        return ResultOfButtle.DRAW
+    elif frog.get_hp() <= 0:
         return ResultOfButtle.LOSE
+    else:
+        return ResultOfButtle.WIN
 
 
 async def battle100Times():
     totle_wins_first_frog = 0
+    totle_lose_first_frog = 0
+    totle_draw = 0
 
     for _ in range(100):
         frog1 = Frog()
         frog2 = Frog()
         Class1 = random.choice([Adventurer, Assassin, Craftsman])
         Class2 = random.choice([Adventurer, Assassin, Craftsman])
-        totle_wins_first_frog += await battleTwoFrogs(Class1(frog1),
-                                                      Class2(frog2))
+        battle_res = await battleTwoFrogs(Class1(frog1),
+                                          Class2(frog2))
 
-    return [totle_wins_first_frog, 100 - totle_wins_first_frog]
+        if battle_res == 0:
+            totle_lose_first_frog += 1
+        elif battle_res == 1:
+            totle_draw += 1
+        else:
+            totle_wins_first_frog += 1
+
+    return [totle_wins_first_frog, totle_draw, totle_lose_first_frog]
