@@ -24,8 +24,8 @@ class Frog(BaseCharClass):
         return self.stats['health']
 
 
-class Assassin(Frog):
-    def __init__(self, frog: Frog):
+class Assassin(BaseCharClass):
+    def __init__(self, frog: BaseCharClass):
         self.stats = frog.stats
         self.extra_hp = 0
 
@@ -45,9 +45,12 @@ class Assassin(Frog):
                      self.extra_hp)
 
 
-class Adventurer(Frog):
-    def __init__(self, frog: Frog):
+class Adventurer(BaseCharClass):
+    def __init__(self, frog: BaseCharClass):
         self.stats = frog.stats
+
+    def set_hp(self, new_hp: int) -> None:
+        self.stats['health'] = new_hp
 
     def get_atk(self) -> int:
         return round(self.stats['attack'] * (1 + ADVENTURER_ATK_MODIF))
@@ -59,9 +62,12 @@ class Adventurer(Frog):
         return self.stats['health']
 
 
-class Craftsman(Frog):
-    def __init__(self, frog: Frog):
+class Craftsman(BaseCharClass):
+    def __init__(self, frog: BaseCharClass):
         self.stats = frog.stats
+
+    def set_hp(self, new_hp: int) -> None:
+        self.stats['health'] = new_hp
 
     def get_atk(self) -> int:
         return self.stats['attack']

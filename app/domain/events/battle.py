@@ -51,9 +51,9 @@ async def battle100Times():
         battle_res = await battleTwoFrogs(Class1(frog1),
                                           Class2(frog2))
 
-        if battle_res == 0:
+        if battle_res == ResultOfButtle.LOSE:
             totle_lose_first_frog += 1
-        elif battle_res == 1:
+        elif battle_res == ResultOfButtle.DRAW:
             totle_draw += 1
         else:
             totle_wins_first_frog += 1
